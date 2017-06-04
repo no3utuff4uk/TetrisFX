@@ -16,25 +16,22 @@ import javafx.stage.Stage;
  * @author torne
  */
 public class Tetris extends Application {
-    
+
     @Override
     public void start(Stage stage) throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("MainWindow.fxml"));
         Parent root = loader.load();
-        
+
         MainWindowController controller = loader.getController();
         Scene scene = new Scene(root);
-        
+
         scene.setOnKeyPressed(event -> controller.keyHandler(event));
-        
-        
-        
-        stage.setTitle("Tetris");
+
+        stage.setTitle("TetrisFX");
         stage.setScene(scene);
-        
-        stage.setOnCloseRequest(event -> controller.clearOnExit());
-        
-                
+
+        stage.setOnCloseRequest(controller::clearOnExit);
+
         stage.setResizable(false);
         stage.show();
     }
@@ -45,5 +42,5 @@ public class Tetris extends Application {
     public static void main(String[] args) {
         launch(args);
     }
-    
+
 }

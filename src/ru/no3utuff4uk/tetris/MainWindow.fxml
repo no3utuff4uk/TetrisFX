@@ -14,81 +14,81 @@
 <?import javafx.scene.text.Font?>
 
 <VBox fx:id="mainScene" focusTraversable="true" xmlns="http://javafx.com/javafx/8.0.102" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.no3utuff4uk.tetris.MainWindowController">
-   <children>
-      <ToolBar prefHeight="40.0" prefWidth="200.0">
-        <items>
-          <Button fx:id="newGameButton" focusTraversable="false" mnemonicParsing="false" onAction="#startNewGame" text="New game" />
-            <Button fx:id="aboutButton" focusTraversable="false" mnemonicParsing="false" text="About" />
-            <Separator orientation="VERTICAL" prefHeight="0.0" prefWidth="2.0" />
-            <Label text="Speed level:" />
-            <Button fx:id="speedPlusButton" focusTraversable="false" mnemonicParsing="false" onAction="#changeSpeed" prefWidth="30.0" text="+" />
-            <Button fx:id="speedMinusButton" focusTraversable="false" mnemonicParsing="false" onAction="#changeSpeed" prefWidth="30.0" text="-" />
-            <AnchorPane prefHeight="30.0" prefWidth="184.0">
-               <children>
-                  <Button focusTraversable="false" layoutX="113.0" layoutY="2.0" mnemonicParsing="false" text="Sound" AnchorPane.rightAnchor="0.0" />
-               </children>
-            </AnchorPane>
-        </items>
-      </ToolBar>
-      <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="501.0" prefWidth="471.0">
-         <children>
-            <AnchorPane prefHeight="484.0" prefWidth="300.0">
-               <children>
-                  <ImageView fitHeight="500.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@resurces/Field.png" />
-                     </image>
-                  </ImageView>
-                  <Canvas fx:id="gameField" height="500.0" width="300.0" />
-               </children>
-            </AnchorPane>
-            <Separator orientation="VERTICAL" prefHeight="200.0" />
-            <VBox prefHeight="500.0" prefWidth="200.0">
-               <children>
-                  <Label text="Score:">
-                     <font>
-                        <Font name="System Bold" size="20.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="scoreLabel" prefHeight="35.0" prefWidth="187.0" text="0000000000" textAlignment="CENTER">
-                     <font>
-                        <Font size="24.0" />
-                     </font>
-                     <VBox.margin>
-                        <Insets />
-                     </VBox.margin>
-                  </Label>
-                  <Separator prefWidth="200.0" />
-                  <Label text="Next figure">
-                     <font>
-                        <Font name="System Bold" size="20.0" />
-                     </font>
-                  </Label>
-                  <Canvas fx:id="previewFigure" height="150.0" width="150.0">
-                     <VBox.margin>
-                        <Insets left="7.0" />
-                     </VBox.margin>
-                  </Canvas>
-                  <Separator prefWidth="200.0" />
-                  <Label text="Speed level:">
-                     <font>
-                        <Font name="System Bold" size="20.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="speedLevelLabel" text="0">
-                     <font>
-                        <Font size="24.0" />
-                     </font>
-                  </Label>
-               </children>
-            </VBox>
-         </children>
-      </HBox>
-      <Separator prefHeight="0.0" prefWidth="471.0" />
-      <AnchorPane prefHeight="23.0" prefWidth="471.0">
-         <children>
-            <Label fx:id="statusLabel" text="Status" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="5.0" />
-         </children>
-      </AnchorPane>
-   </children>
+    <children>
+        <ToolBar prefHeight="40.0" prefWidth="200.0">
+            <items>
+                <Button fx:id="newGameButton" focusTraversable="false" mnemonicParsing="false" onAction="#startNewGame" text="New game" />
+                <Button fx:id="aboutButton" focusTraversable="false" mnemonicParsing="false" text="About" />
+                <Separator orientation="VERTICAL" prefHeight="0.0" prefWidth="2.0" />
+                <Label text="Speed level:" />
+                <Button fx:id="speedPlusButton" focusTraversable="false" mnemonicParsing="false" onAction="#changeSpeed" prefWidth="30.0" text="+" />
+                <Button fx:id="speedMinusButton" focusTraversable="false" mnemonicParsing="false" onAction="#changeSpeed" prefWidth="30.0" text="-" />
+                <AnchorPane prefHeight="30.0" prefWidth="184.0">
+                    <children>
+                        <Button focusTraversable="false" layoutX="113.0" layoutY="2.0" mnemonicParsing="false" text="Sound" AnchorPane.rightAnchor="0.0" />
+                    </children>
+                </AnchorPane>
+            </items>
+        </ToolBar>
+        <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="501.0" prefWidth="471.0">
+            <children>
+                <AnchorPane prefHeight="484.0" prefWidth="300.0">
+                    <children>
+                        <ImageView fitHeight="500.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@resurces/Field.png" />
+                            </image>
+                        </ImageView>
+                        <Canvas fx:id="gameField" height="500.0" width="300.0" />
+                    </children>
+                </AnchorPane>
+                <Separator orientation="VERTICAL" prefHeight="200.0" />
+                <VBox prefHeight="500.0" prefWidth="200.0">
+                    <children>
+                        <Label text="Score:">
+                            <font>
+                                <Font name="System Bold" size="20.0" />
+                            </font>
+                        </Label>
+                        <Label fx:id="scoreLabel" prefHeight="35.0" prefWidth="187.0" text="0000000000" textAlignment="CENTER">
+                            <font>
+                                <Font size="24.0" />
+                            </font>
+                            <VBox.margin>
+                                <Insets />
+                            </VBox.margin>
+                        </Label>
+                        <Separator prefWidth="200.0" />
+                        <Label text="Next figure">
+                            <font>
+                                <Font name="System Bold" size="20.0" />
+                            </font>
+                        </Label>
+                        <Canvas fx:id="previewFigure" height="150.0" width="150.0">
+                            <VBox.margin>
+                                <Insets left="7.0" />
+                            </VBox.margin>
+                        </Canvas>
+                        <Separator prefWidth="200.0" />
+                        <Label text="Speed level:">
+                            <font>
+                                <Font name="System Bold" size="20.0" />
+                            </font>
+                        </Label>
+                        <Label fx:id="speedLevelLabel" text="0">
+                            <font>
+                                <Font size="24.0" />
+                            </font>
+                        </Label>
+                    </children>
+                </VBox>
+            </children>
+        </HBox>
+        <Separator prefHeight="0.0" prefWidth="471.0" />
+        <AnchorPane prefHeight="23.0" prefWidth="471.0">
+            <children>
+                <Label fx:id="statusLabel" text="Status" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="5.0" />
+            </children>
+        </AnchorPane>
+    </children>
 </VBox>

@@ -15,37 +15,34 @@ import ru.no3utuff4uk.tetris.figures.Square;
  * @author torne
  */
 public class TestMain {
+
     public static void main(String[] args) {
-         TetrisScene instance = new TetrisScene();
-        
+        TetrisScene instance = new TetrisScene();
+
         Figures figure = new Line(0);
         //figure.rotate();
         instance.setFigure(figure);
-        
-        for(int t = 0; t < 1000; t++)
-        {
+
+        for (int t = 0; t < 1000; t++) {
             byte[][] tmp = instance.getScene();
             System.out.println("_____________________________");
-            for (int i = 0; i < 40; i++) 
-            {
+            for (int i = 0; i < 40; i++) {
                 System.out.print(i + 1);
-                for (int j = 0; j < 20; j++) 
-                {
+                for (int j = 0; j < 20; j++) {
                     System.out.print(tmp[i][j] != 0 ? 'X' : ' ');
                 }
                 System.out.println('|');
             }
             System.out.println("_____________________________");
-            
-            
+
             figure.getPosY();
             instance.dropFigure();
-            
+
             instance.moveFigureLeft();
-            
-            
-            if(instance.needNewFigure())
-                instance.setFigure(new Square((new Random().nextInt()&0xff)%(7)));
+
+            if (instance.needNewFigure()) {
+                instance.setFigure(new Square((new Random().nextInt() & 0xff) % (7)));
+            }
         }
     }
 }

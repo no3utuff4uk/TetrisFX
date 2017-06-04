@@ -5,31 +5,47 @@
  */
 package ru.no3utuff4uk.tetris.figures;
 
-import javafx.scene.layout.GridPane;
-
 /**
- *
+ * Супер класс для фигур
  * @author torne
  */
 public abstract class Figures {
-    
+
     protected int color;
-    
+
     protected byte[][] mask;
-    
+
     protected int posX;
     protected int sizeX;
-    
+
     protected int posY;
     protected int sizeY;
 
-    public int getPosX() 
+    protected int rotateOffsetX;
+    protected int rotateOffsetY;
+    
+    protected boolean isRotated;
+
+    public boolean isRotated()
     {
+        return isRotated;
+    }
+
+    public int getRotateOffsetX()
+    {
+        return rotateOffsetX;
+    }
+
+    public int getRotateOffsetY()
+    {
+        return rotateOffsetY;
+    }
+    
+    public int getPosX() {
         return posX;
     }
 
-    public int getPosY() 
-    {
+    public int getPosY() {
         return posY;
     }
 
@@ -40,8 +56,10 @@ public abstract class Figures {
     public void setPosY(int posY) {
         this.posY = posY;
     }
+
+    public abstract void setRotated();
     
-    public abstract void rotate();    
+    public abstract byte[][] getRotatedMask();
 
     public int getSizeX() {
         return this.sizeX;

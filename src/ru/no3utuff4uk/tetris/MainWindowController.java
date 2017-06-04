@@ -22,18 +22,21 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
+import static javafx.scene.input.KeyCode.ESCAPE;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
 import javafx.stage.Popup;
+import javafx.stage.WindowEvent;
 
 /**
  *
  * @author torne
  */
 public class MainWindowController implements Initializable {
-    
+
     private Label label;
     @FXML
     private Canvas gameField;
@@ -56,182 +59,144 @@ public class MainWindowController implements Initializable {
     private Button speedPlusButton;
     @FXML
     private Button speedMinusButton;
-    
+
     private GameTask gameTask;
     private Thread gameThread;
-    
+
     private final KeyCombination newGameCombination;
     Popup pausedStage;
 
-    public MainWindowController() 
-    {
+    public MainWindowController() {
         this.newGameCombination = new KeyCodeCombination(KeyCode.N, KeyCodeCombination.CONTROL_DOWN);
         this.speedLevel = 0;
-        
-        
-        //pausedStage.show();
-        
-        //pausePane.set
     }
-    
-    
-    
+
     @Override
-    public void initialize(URL url, ResourceBundle rb) 
-    {
-        //TO DO: всплывающее окно должно следить за родительским
+    public void initialize(URL url, ResourceBundle rb) {
+        //TODO: всплывающее окно должно следить за родительским
         pausedStage = new Popup();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("Pause.fxml"));
-        try
-        {
-            pausedStage.getContent().add((Parent)loader.load());
-        } catch (IOException ex)
-        {
+        try {
+            pausedStage.getContent().add((Parent) loader.load());
+        } catch (IOException ex) {
             Logger.getLogger(MainWindowController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-    }  
+
+    }
 
     /**
      * Обработчик управления с клавиатуры
-     * @param event 
+     *
+     * @param event
      */
     public void keyHandler(KeyEvent event) {
-        if(newGameCombination.match(event))
+        if (newGameCombination.match(event)) {
             startNewGame();
-        if(gameTask == null)
+        }
+        if (gameTask == null) {
             return;
-        
-        switch(event.getCode())
-        {
-            case LEFT:
-            case A: gameTask.moveLeft();break;
-            case RIGHT:
-            case D: gameTask.moveRight();break;
-            case DOWN:
-            case S: gameTask.dropDown();break;
-            case SPACE: gameTask.dropDownFast();break;
-            case P: pauseGame();break;
-            case ESCAPE: 
-                if( gameThread!= null && 
-                    gameThread.isAlive())
-                {
-                    gameTask.stopGame();
-                    gameOverHandler(null);
-                }
-                break;
         }
-            
+
+        if (event.getCode() == ESCAPE) {
+            if (gameThread != null && gameThread.isAlive()) {
+                gameTask.stopGame();
+                gameOverHandler(null);
+            }
+        }
+
+        gameTask.figureMover(event.getCode());
     }
-    
-    
-    
-    private void pauseGame()
-    {
-        if( gameThread!= null && 
-            gameThread.isAlive())
-        {
-            if(pausedStage.isShowing())
+
+    private void pauseGame() {
+        if (gameThread != null
+                && gameThread.isAlive()) {
+            if (pausedStage.isShowing()) {
                 pausedStage.hide();
-            else
+            } else {
                 pausedStage.show(mainScene.getScene().getWindow());
+            }
             gameTask.pauseGame();
-            
+
         }
     }
-    
+
     /**
      * Остановка потока игры при выходе из программы
      */
-    public void clearOnExit()
-    {
-        if( gameThread!= null && 
-            gameThread.isAlive())
-        {
+    public void clearOnExit(WindowEvent event) {
+        if (gameThread != null
+                && gameThread.isAlive()) {
             gameTask.stopGame();
         }
         System.out.println("Thread stoped!");
     }
-    
+
     /**
      * Старт новой игры
      */
     @FXML
-    private void startNewGame() 
-    {
-        if( gameThread!= null && 
-            gameThread.isAlive())
-        {
+    private void startNewGame() {
+        if (gameThread != null
+                && gameThread.isAlive()) {
             gameTask.stopGame();
         }
-        
-        if(pausedStage.isShowing())
+
+        if (pausedStage.isShowing()) {
             pausedStage.hide();
-        
-        if(!(speedMinusButton.isDisable() && speedPlusButton.isDisable()))
-        {
+        }
+
+        if (!(speedMinusButton.isDisable() && speedPlusButton.isDisable())) {
             speedPlusButton.setDisable(true);
             speedMinusButton.setDisable(true);
         }
-        
+
         GraphicsContext fieldGraphicsContext = gameField.getGraphicsContext2D();
         GraphicsContext nextFigureContext = previewFigure.getGraphicsContext2D();
-        
+
         gameTask = new GameTask(fieldGraphicsContext, nextFigureContext, speedLevel);
-        
-        gameTask.setOnSucceeded(event -> gameOverHandler((WorkerStateEvent)event));
+
+        gameTask.setOnSucceeded(event -> gameOverHandler((WorkerStateEvent) event));
         scoreLabel.textProperty().bind(gameTask.messageProperty());
-        
+
         gameThread = new Thread(gameTask);
         gameThread.start();
-        
-        
-        
+
     }
-    
-    private void gameOverHandler(WorkerStateEvent event)
-    {
+
+    private void gameOverHandler(WorkerStateEvent event) {
         speedPlusButton.setDisable(false);
         speedMinusButton.setDisable(false);
-        
+
         Alert gameOverAlert = new Alert(Alert.AlertType.INFORMATION);
-        
-        if(gameTask.isGameOver())
-        {          
+
+        if (gameTask.isGameOver()) {
             gameOverAlert.setTitle("Game OVER!");
             gameOverAlert.setHeaderText(null);
+            gameOverAlert.initModality(Modality.APPLICATION_MODAL);
             gameOverAlert.setContentText("Your score: " + scoreLabel.getText());
             gameOverAlert.show();
-        }
-        else
-        if(event == null)
-        {
+        } else if (event == null) {
             gameOverAlert.setTitle("Game stoped!");
             gameOverAlert.setHeaderText(null);
+            gameOverAlert.initModality(Modality.APPLICATION_MODAL);
             gameOverAlert.setContentText("Your score: " + scoreLabel.getText());
             gameOverAlert.show();
         }
     }
 
     @FXML
-    private void changeSpeed(ActionEvent event) 
-    {
-        if(((Button)event.getSource()).getText().compareTo("+") == 0)
-        {
-            if(speedLevel < 9)
-            {
+    private void changeSpeed(ActionEvent event) {
+        if (((Button) event.getSource()).getText().compareTo("+") == 0) {
+            if (speedLevel < 9) {
                 speedLevel++;
                 speedLevelLabel.setText(speedLevel.toString());
             }
-        }
-        else
-        {
-            if(speedLevel > 0)
-            {
+        } else {
+            if (speedLevel > 0) {
                 speedLevel--;
                 speedLevelLabel.setText(speedLevel.toString());
             }
         }
     }
-    
+
 }
